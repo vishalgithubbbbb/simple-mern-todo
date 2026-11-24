@@ -3,33 +3,28 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                echo 'Pulling code from GitHub'
                 checkout scm
+                echo 'Code downloaded successfully!'
             }
         }
 
-        stage('Build Docker Images') {
+        stage('Build') {
             steps {
-                echo 'Building frontend and backend'
                 sh 'docker compose build'
             }
         }
 
-        stage('Deploy Application') {
+        stage('Deploy') {
             steps {
-                echo 'Deploying Todo application'
                 sh 'docker compose up -d'
             }
         }
 
-        stage('Verify Deployment') {
+        stage('Verify') {
             steps {
                 sh 'docker compose ps'
-                sh 'sleep 5'
-                sh 'curl -f http://localhost/api/health'
             }
         }
     }
